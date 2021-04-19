@@ -1,0 +1,9 @@
+.vs/
+DLS_Project/bin/
+DLS_Project/obj/
+DataLayer/bin/
+DataLayer/obj/
+BusinessLayer/bin/
+BusinessLayer/obj/
+PresentationLayer/bin/
+PresentationLayer/obj/
