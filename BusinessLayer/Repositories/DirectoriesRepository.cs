@@ -27,7 +27,7 @@ namespace BusinessLayer.Repositories
         public IEnumerable<Directory> GetAllDirectories(bool includeMaterials = false)
         {
             if (includeMaterials)
-                return _context.Set<Directory>().Include(x => x.Materials).AsNoTracking().ToList();
+                return _context.Directories.Include(x => x.Materials).AsNoTracking().ToList();
             else
                 return _context.Directories.ToList();
         }
@@ -35,7 +35,7 @@ namespace BusinessLayer.Repositories
         public Directory GetDirectoryById(int directoryId, bool includeMaterials = false)
         {
             if (includeMaterials)
-                return _context.Set<Directory>().Include(x => x.Materials).AsNoTracking()
+                return _context.Directories.Include(x => x.Materials).AsNoTracking()
                     .FirstOrDefault(x => x.Id == directoryId);
             else
                 return _context.Directories.FirstOrDefault(x => x.Id == directoryId);

@@ -41,5 +41,50 @@ namespace PresentationLayer.Services
             };
             return vm;
         }
+    
+        public DirectoryViewModel GetDirectoryEditModel(int directoryId = 0)
+        {
+            if (directoryId != 0)
+            {
+                var dbModel = _dataManager.DirRepos.GetDirectoryById(directoryId);
+                var editModel = new DirectoryViewModel()
+                {
+                    Id = dbModel.Id,
+                    Title = dbModel.Title,
+                    Html = dbModel.Html
+                };
+                return editModel;
+            }
+            else
+            {
+                return new DirectoryViewModel() { };
+            }
+        }
+    
+        public DirectoryViewModel SaveDirectoryEditModel(DirectoryViewModel directoryEditModel)
+        {
+            Directory directoryDbModel;
+            if (directoryEditModel.Id != 0)
+                directoryDbModel = _dataManager.DirRepos.GetDirectoryById(directoryEditModel.Id);
+            else
+                directoryDbModel = new Directory();
+
+            directoryDbModel.Title = directoryEditModel.Title;
+            directoryDbModel.Html = directoryEditModel.Html;
+
+            _dataManager.DirRepos.SaveDirectory(directoryDbModel);
+            return TransitDirectoryToView(directoryDbModel.Id);
+        }
+    
+        public DirectoryViewModel CreateNewDirectoryModel()
+        {
+            return new DirectoryViewModel() { };
+        }
+
+        public void DeleteDirectoryFromDb(int directoryId)
+        {
+            var delDirectory = _dataManager.DirRepos.GetDirectoryById(directoryId);
+            _dataManager.DirRepos.DeleteDirectory(delDirectory);
+        }
     }
 }

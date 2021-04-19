@@ -24,19 +24,30 @@ namespace BusinessLayer.Repositories
             _context.SaveChanges();
         }
 
-        public IEnumerable<Material> GetAllMaterials()
+        public IEnumerable<Material> GetAllMaterials(bool includeDirectory = false)
         {
-            return _context.Materials.ToList();
+            if (includeDirectory)
+                return _context.Materials.Include(x => x.Directory).AsNoTracking().ToList();
+            else
+                return _context.Materials.ToList();
         }
 
-        public Material GetMaterialById(int materialId)
+        public Material GetMaterialById(int materialId, bool includeDirectory = false)
         {
-            return _context.Materials.FirstOrDefault(x => x.Id == materialId);
+            if (includeDirectory)
+                return _context.Materials.Include(x => x.Directory).AsNoTracking()
+                    .Where(x => x.Id == materialId).FirstOrDefault();
+            else
+                return _context.Materials.FirstOrDefault(x => x.Id == materialId);
         }
 
-        public IEnumerable<Material> GetMaterialsByDirectory(int directoryId)
+        public IEnumerable<Material> GetMaterialsByDirectory(int directoryId, bool includeDirectory = false)
         {
-            return _context.Materials.Where(x => x.DirectoryId == directoryId).ToList();
+            if (includeDirectory)
+                return _context.Materials.Include(x => x.Directory).AsNoTracking()
+                    .Where(x => x.DirectoryId == directoryId).ToList();
+            else
+                return _context.Materials.Where(x => x.DirectoryId == directoryId).ToList();
         }
 
         public void SaveMaterial(Material material)
