@@ -1,0 +1,44 @@
+﻿@using PresentationLayer.ViewModels;
+@using DataLayer.Enums;
+
+@model PageViewModel
+
+@if (Model is DirectoryViewModel)
+{
+    var currentModel = (DirectoryViewModel)Model;
+    <h1>@currentModel.Directory.Title</h1>
+    <p>@Html.Raw(currentModel.Directory.Html)</p>
+    <ul>
+        @if (currentModel.Materials != null)
+        {
+            foreach (var sub in currentModel.Materials)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Page"
+                       asp-route-pageId="@sub.Material.Id"
+                       asp-route-pageType="@PageEnums.PageType.Material">
+                        @sub.Material.Title
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+}
+else if (Model is MaterialViewModel)
+{
+    var currentModel = (MaterialViewModel)Model;
+    <h1>@currentModel.Material.Title</h1>
+    <p>@Html.Raw(currentModel.Material.Html)</p>
+    @if (currentModel.NextMaterial != null)
+    {
+        <ul>
+            <li>
+                <a asp-action="Index" asp-controller="Page"
+                   asp-route-pageId="@currentModel.NextMaterial.Id"
+                   asp-route-pageType="@PageEnums.PageType.Material">
+                    @currentModel.NextMaterial.Title
+                </a>
+            </li>
+        </ul>
+    }
+}

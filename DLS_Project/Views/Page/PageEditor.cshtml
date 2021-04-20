@@ -1,0 +1,48 @@
+﻿@using PresentationLayer.ViewModels;
+@using DataLayer.Enums;
+
+@model PageViewModel
+
+@if (Model is DirectoryViewModel)
+{
+    var currentModel = (DirectoryViewModel)Model;
+
+    <form action="/Page/SaveDirectory" method="post">
+        <input type="hidden" value="@ViewBag.PageType" name="PageType" />
+        <input type="hidden" value="@currentModel.Id" name="Id" />
+        <h1>Save/Edit Directory</h1>
+        <div class="form-group">
+            <label for="Title">Title:</label>
+            <input name="Title" value="@currentModel.Title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Html">Html:</label>
+            <input name="Html" value="@currentModel.Html" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" />
+        </div>
+    </form>
+}
+else if (Model is MaterialViewModel)
+{
+    var currentModel = (MaterialViewModel)Model;
+
+<form action="/Page/SaveMaterial" method="post">
+    <input type="hidden" value="@ViewBag.PageType" name="PageType" />
+    <input type="hidden" value="@currentModel.Id" name="Id" />
+    <input type="hidden" value="@currentModel.DirectoryId" name="DirectoryId" />
+    <h1>Save/Edit Material</h1>
+    <div class="form-group">
+        <label for="Title">Title:</label>
+        <input name="Title" value="@currentModel.Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Html">Html:</label>
+        <input name="Html" value="@currentModel.Html" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" />
+    </div>
+</form>
+}
